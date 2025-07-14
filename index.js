@@ -22,6 +22,14 @@ const client = new MongoClient(uri, {
 
 async function run() {
    try {
+      const jobCollection = client.db('soloSphere').collection('jobs')
+
+      // Add jobs to Database
+      app.post('/jobs', async (req, res) => {
+         const job = req.body
+         const result = await jobCollection.insertOne(job)
+         res.send(result)
+      })
       // Send a ping to confirm a successful connection
       await client.db('admin').command({ ping: 1 })
       console.log(
