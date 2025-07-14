@@ -31,9 +31,17 @@ async function run() {
          res.send(result)
       })
 
-      // Get jobs from Database
+      // Get all jobs from Database
       app.get('/jobs', async (req, res) => {
          const result = await jobCollection.find().toArray()
+         res.send(result)
+      })
+
+      // Get specific jobs from Database
+      app.get('/jobs/:email', async (req, res) => {
+         const email = req.params.email
+         const query = { email: email }
+         const result = await jobCollection.find(query).toArray()
          res.send(result)
       })
       // Send a ping to confirm a successful connection
