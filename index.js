@@ -24,10 +24,16 @@ async function run() {
    try {
       const jobCollection = client.db('soloSphere').collection('jobs')
 
-      // Add jobs to Database
+      // Add job to Database
       app.post('/jobs', async (req, res) => {
          const job = req.body
          const result = await jobCollection.insertOne(job)
+         res.send(result)
+      })
+
+      // Get jobs from Database
+      app.get('/jobs', async (req, res) => {
+         const result = await jobCollection.find().toArray()
          res.send(result)
       })
       // Send a ping to confirm a successful connection
