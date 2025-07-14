@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 require('dotenv').config()
 
 const port = process.env.PORT || 9000
@@ -42,6 +42,14 @@ async function run() {
          const email = req.params.email
          const query = { email: email }
          const result = await jobCollection.find(query).toArray()
+         res.send(result)
+      })
+
+      // Delete specific jobs from DB
+      app.delete('/job/:id', async (req, res) => {
+         const id = req.params.id
+         const query = { _id: new ObjectId(id) }
+         const result = await jobCollection.deleteOne(query)
          res.send(result)
       })
       // Send a ping to confirm a successful connection
